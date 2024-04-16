@@ -3,8 +3,8 @@
 CC=riscv32-none-elf-gcc
 CFLAGS= -g -ffreestanding -Os 
 LDFLAGS= -Wl,--gc-sections -nostartfiles -nostdlib -nodefaultlibs -Wl,-T,linker.ld
-gimly.S: 
-	jasminc -pasm -arch risc-v jasmin/compiler/tests/success/risc-v/gimli.jazz -o gimli.S
+gimli.S: 
+	jasminc -arch risc-v jasmin/compiler/tests/success/risc-v/gimli.jazz -o gimli.S
 
 main.elf: main.o crt.o gimli.o linker.ld
 	$(CC) $(CFLAGS) $(LDFLAGS) main.o crt.o gimli.o -o main.elf
