@@ -4,10 +4,11 @@ let
     crossSystem = (import <nixpkgs/lib>).systems.examples.riscv32-embedded;
   };
 in pkgs.mkShell {
-	buildInputs = with pkgs; [
+	buildInputs = [
 		pkgscross.stdenv.cc
-		gdb 
-		qemu 
-		gnumake
+		pkgs.gdb 
+		pkgs.qemu 
+		pkgs.gnumake
+		(pkgs.callPackage ./jasmin/default.nix {}) # this gets us the risc-v jasminc in PATH
 	];
 }

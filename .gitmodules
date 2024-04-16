@@ -1,0 +1,7 @@
+[submodule "hw-gimli"]
+	path = hw-gimli
+	url = https://github.com/pmassolino/hw-gimli.git
+[submodule "jasmin"]
+	path = jasmin
+	url = https://github.com/jasmin-lang/jasmin/
+	branch = risc-v
