@@ -6,8 +6,8 @@ LDFLAGS= -Wl,--gc-sections -nostartfiles -nostdlib -nodefaultlibs -Wl,-T,linker.
 
 gimli_KAT.h:
 	python parse_KAT.py  > gimli_KAT.h
-gimli.S: 
-	jasminc -arch risc-v jasmin/compiler/tests/success/risc-v/gimli.jazz -o gimli.S -nowarning
+gimli.S: gimli.jazz
+	jasminc -arch risc-v gimli.jazz -o gimli.S -nowarning
 
 main.elf: gimli_KAT.h main.o crt.o gimli.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o main.elf $^

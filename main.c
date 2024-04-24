@@ -7,6 +7,21 @@ void puts_(char *c) {
 	char b;
 	while (b=*c++)
 		putc_(b);
+	putc_('\n');
+}
+
+
+void putc_hex_byte(unsigned char c) {
+	const char *alphabet = "0123456789abcdef";
+	putc_(alphabet[(c>>4)&0xf]);
+	putc_(alphabet[c&0xf]);
+}
+
+void puts_hex(unsigned char *c,int n) {
+	char b;
+	for (int i = 0; i < n; i++)
+		putc_hex_byte(c[i]);
+	puts_("");
 }
 
 void cpy(unsigned int *dst, unsigned int *src, unsigned int cnt) {
@@ -30,10 +45,14 @@ void main() {
 	unsigned int buf [48];
 	puts_("Hello World\n");
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 1; i++) {
 		unsigned int *in = (unsigned int*)(gimli_KAT+2*i*48);
 		cpy(buf,in,48);
+		puts_("=============");
+		puts_hex((unsigned char *)buf,48);
 		gimli(buf);
+		puts_hex((unsigned char *)buf,48);
+		puts_("=============");
 		if(ret|=cmp(buf,in+12,12)) {
 			puts_("-");
 		} else {
