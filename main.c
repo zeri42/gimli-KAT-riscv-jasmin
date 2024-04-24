@@ -45,13 +45,14 @@ void main() {
 	unsigned int buf [48];
 	puts_("Hello World\n");
 
-	for (int i = 0; i < 1; i++) {
-		unsigned int *in = (unsigned int*)(gimli_KAT+2*i*48);
+	for (int i = 0; i < 100; i++) {
+		unsigned int *in = ((unsigned int*)gimli_KAT)+2*i*12;
 		cpy(buf,in,48);
 		puts_("=============");
 		puts_hex((unsigned char *)buf,48);
 		gimli(buf);
 		puts_hex((unsigned char *)buf,48);
+		puts_hex((unsigned char *)(in+12),48);
 		puts_("=============");
 		if(ret|=cmp(buf,in+12,12)) {
 			puts_("-");

@@ -25,15 +25,15 @@ fn ror32(reg u32 in, reg u32 cnt)  -> reg u32 {
   icnt = 32;
   icnt = icnt - cnt;
 	l = in >> (icnt);
-	ret = u & l;
+	ret = u | l;
 	return ret;
 }
 
 inline
 fn gimli_ref(reg ptr u32[12] state) -> reg ptr u32[12] {
-    inline int round, column;
-    reg u32 x, y, z;
-    reg u32 a, b;
+    inline int round column;
+    reg u32 x y z;
+    reg u32 a b;
     reg u32 rc;
     reg u32 tmp;
 
@@ -46,13 +46,17 @@ fn gimli_ref(reg ptr u32[12] state) -> reg ptr u32[12] {
     		x = state[0 + column];
 /* x <<r= 24; */ 
     		x = ror32(x,24);
+    	//	x = ror32(x,8);
     		y = state[4 + column];
 /* y <<r= 9; */
     		y = ror32(y,9);
+    	//	y = ror32(y,23);
     		z = state[8 + column];
 
-    		tmp = z << 1;
-    		a = x ^ tmp;
+    		tmp = z;
+		tmp = tmp << 1;
+		a = x;
+    		a = a ^ tmp;
     		b = y & z;
     		tmp = b << 2;
     		a = a ^ tmp;
@@ -87,6 +91,7 @@ fn gimli_ref(reg ptr u32[12] state) -> reg ptr u32[12] {
     		a ^= b;
     		state[0] = a;
     	}
+
     }
     return state;
 }
@@ -100,7 +105,7 @@ fn gimli (reg u32 io) {
     t = (u32)[io + 4 * i];
     state[i] = t;
   }
-  state = gimli_ref(state);
+ state = gimli_ref(state);
   for i = 0 to 12 {
     t = state[i];
     (u32)[io + 4 * i] = t;
